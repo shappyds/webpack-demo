@@ -12,5 +12,13 @@ module.exports = {
   // development 会设置process.env.NODE_ENV的值为development,开启NamedChunksPlugin和NamedModulesPlugin
   // productiont 会设置process.env.NODE_ENV的值为production, 开启一系列插件
   // none 不开启任何优化选项
-  mode: 'production'
+  mode: 'production',
+  module: {
+    rules: [
+      {
+        test: /.js$/,
+        use: 'babel-loader'
+      }
+    ]
+  }
 } 
