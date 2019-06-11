@@ -4,12 +4,41 @@ const webpack = require('webpack')
 const OptimizeCssAssestsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const glob = require('glob')
+
+const getMPA = () => {
+  const entrys = {}
+  const htmlWebpackPlugins = []
+  const entryFiles = glob.sync(path.join(__dirname, './src/*/index.js'))
+  entryFiles.map(file => {
+    const match = file.match(/src\/(.*)\/index.js$/)
+    const pageName = match && match[1]
+    entrys[pageName] = match && `./${match[0]}`
+    htmlWebpackPlugins.push(
+      new HtmlWebpackPlugin({
+        template: path.join(__dirname, `src/${pageName}/index.html`),
+        filename: `${pageName}.html`,
+        chunks: [pageName],
+        inject: true,
+        minify: {
+          html5: true,
+          collapseWhitespace: true,
+          preserveLineBreaks: false,
+          minifyCSS: true,
+          minifyJS: true,
+          removeComments: false
+        }
+      }),
+    )
+  })
+
+  return { entrys, htmlWebpackPlugins }
+}
+
+const { entrys, htmlWebpackPlugins } = getMPA()
 
 module.exports = {
-  entry: {
-    index: './src/index.js',
-    search: './src/search.js'
-  },
+  entry: entrys,
   output: {
     path: path.join(__dirname, 'dist'), // must be absolute path
     filename: '[name]_[chunkhash:8].js'
@@ -57,34 +86,6 @@ module.exports = {
     new OptimizeCssAssestsPlugin({
       assetNameRegExp: /\.css$/g,
       cssProcessor: require('cssnano')
-    }),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src/template/index.html'),
-      filename: 'index.html',
-      chunks: ['index'],
-      inject: true,
-      minify: {
-        html5: true,
-        collapseWhitespace: true,
-        preserveLineBreaks: false,
-        minifyCSS: true,
-        minifyJS: true,
-        removeComments: false
-      }
-    }),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src/template/search.html'),
-      filename: 'search.html',
-      chunks: ['search'],
-      inject: true,
-      minify: {
-        html5: true,
-        collapseWhitespace: true,
-        preserveLineBreaks: false,
-        minifyCSS: true,
-        minifyJS: true,
-        removeComments: false
-      }
     })
-  ]
+  ].concat(htmlWebpackPlugins)
 } 
