@@ -1,2 +1,0 @@
-# webpack-demo
-webpack4
