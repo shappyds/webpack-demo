@@ -3,6 +3,8 @@
 const path = require('path')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssPlugin = require('optimize-css-assets-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   entry: './src/index.js',
@@ -20,7 +22,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: [ MiniCSSExtractPlugin.loader, 'css-loader']
+        loader: [ MiniCSSExtractPlugin.loader, 'css-loader', 'postcss-loader']
       }
     ]
   },
@@ -31,6 +33,21 @@ module.exports = {
     new OptimizeCssPlugin({
       assetNameRegExp: /\.css$/g,
       cssProcessor: require('cssnano')
-    })
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src/template/index.html'),
+      filename: 'index.html',
+      chunks: ['index'],
+      inject: true,
+      minify: {
+        html5: true,
+        collapseWhitespace: true,
+        preserveLineBreaks: false,
+        minifyCSS: true,
+        minifyJS: true,
+        removeComments: false
+      }
+    }),
+    new CleanWebpackPlugin()
   ],
 }
