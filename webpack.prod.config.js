@@ -43,7 +43,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src/template/index.html'),
       filename: 'index.html',
-      chunks: ['index'],
       inject: true,
       minify: {
         html5: true,
