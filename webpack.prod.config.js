@@ -22,7 +22,13 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: [ MiniCSSExtractPlugin.loader, 'css-loader', 'postcss-loader']
+        loader: [ MiniCSSExtractPlugin.loader, 'css-loader', 'postcss-loader', {
+          loader: 'px2rem-loader',
+          options: {
+            remUnit: 75,
+            remPrecision: 8
+          }
+        }]
       }
     ]
   },
