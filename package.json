@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.prod.config.js",
+    "build:ssr": "webpack --config webpack.ssr.config.js",
     "dev": "webpack-dev-server --config webpack.dev.config.js --open"
   },
   "repository": {
@@ -34,6 +35,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "express": "^4.17.1",
     "glob": "^7.1.6",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.8.0",

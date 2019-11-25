@@ -9,12 +9,12 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const setMPA = () => {
   const entry = {}
   const htmlWebpackPlugin = []
-  const entryFiles = glob.sync(path.join(__dirname, './src/*/index.js'))
+  const entryFiles = glob.sync(path.join(__dirname, './src/*/index-server.jsx'))
 
   Object.keys(entryFiles)
     .map((index) => {
       const entryFile = entryFiles[index]
-      const match = entryFile.match(/src\/(.*)\/index.js/)
+      const match = entryFile.match(/src\/(.*)\/index-server.jsx/)
       const pageName = match && match[1]
 
       entry[pageName] = entryFile
@@ -48,13 +48,15 @@ module.exports = {
   entry,
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name]_[chunkhash:8].js'
+    filename: '[name]_server.js',
+    libraryTarget: 'umd',
+    libraryExport: 'default'
   },
   mode: 'production',
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: ['babel-loader', 'eslint-loader']
       },
