@@ -5,16 +5,17 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 
 const setMPA = () => {
   const entry = {}
   const htmlWebpackPlugin = []
-  const entryFiles = glob.sync(path.join(__dirname, './src/*/index.js'))
+  const entryFiles = glob.sync(path.join(__dirname, './src/*/index.jsx'))
 
   Object.keys(entryFiles)
     .map((index) => {
       const entryFile = entryFiles[index]
-      const match = entryFile.match(/src\/(.*)\/index.js/)
+      const match = entryFile.match(/src\/(.*)\/index.jsx/)
       const pageName = match && match[1]
 
       entry[pageName] = entryFile
@@ -54,7 +55,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
       },
@@ -75,11 +76,13 @@ module.exports = {
       filename: '[name]_[contenthash:8].css'
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    new FriendlyErrorsWebpackPlugin()
   ].concat(htmlWebpackPlugin),
   devtool: 'source-map',
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
-    hot: true
+    hot: true,
+    stats: 'errors-only'
   }
 }
