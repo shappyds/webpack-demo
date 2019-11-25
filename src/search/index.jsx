@@ -8,10 +8,11 @@ class Index extends React.Component {
     this.state = {
       Text: null
     }
+    this.dyImport = this.dyImport.bind(this)
   }
 
   dyImport() {
-    import('./text').then(
+    import('./text.jsx').then(
       (Text) => {
         this.setState({
           Text: Text.default
@@ -25,7 +26,7 @@ class Index extends React.Component {
     return (
       <>
         {Text ? <Text /> : null}
-        <div onClick={this.dyImport.bind(this)}>search</div>
+        <button type="button" onClick={this.dyImport}>search</button>
       </>
     )
   }

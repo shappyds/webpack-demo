@@ -9,7 +9,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const setMPA = () => {
   const entry = {}
   const htmlWebpackPlugin = []
-  const entryFiles = glob.sync(path.join(__dirname, './src/*/index.jsx'))
+  const entryFiles = glob.sync(path.join(__dirname, './src/*/index.js'))
 
   Object.keys(entryFiles)
     .map((index) => {
@@ -32,7 +32,7 @@ const setMPA = () => {
             minifyJS: true,
             removeComments: false
           }
-        })
+        }),
       )
     })
 
@@ -54,7 +54,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         loader: ['babel-loader', 'eslint-loader']
       },
