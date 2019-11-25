@@ -3,9 +3,8 @@ import ReactDOM from 'react-dom'
 import '../../common'
 
 class Index extends React.Component {
-
-  constructor() {
-    super(...arguments)
+  constructor(...args) {
+    super(args)
     this.state = {
       Text: null
     }
@@ -13,11 +12,11 @@ class Index extends React.Component {
 
   dyImport() {
     import('./text').then(
-      Text => {
+      (Text) => {
         this.setState({
           Text: Text.default
         })
-      } 
+      }
     )
   }
 
@@ -25,8 +24,8 @@ class Index extends React.Component {
     const { Text } = this.state
     return (
       <>
-        {Text ? <Text/> : null}
-        <div onClick={this.dyImport.bind(this)}>{'search'}</div>
+        {Text ? <Text /> : null}
+        <div onClick={this.dyImport.bind(this)}>search</div>
       </>
     )
   }

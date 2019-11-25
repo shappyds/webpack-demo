@@ -1,4 +1,3 @@
-'use strict'
 
 const glob = require('glob')
 const path = require('path')
@@ -11,13 +10,13 @@ const setMPA = () => {
   const entry = {}
   const htmlWebpackPlugin = []
   const entryFiles = glob.sync(path.join(__dirname, './src/*/index.js'))
-  
+
   Object.keys(entryFiles)
-    .map(index => {
+    .map((index) => {
       const entryFile = entryFiles[index]
       const match = entryFile.match(/src\/(.*)\/index.js/)
       const pageName = match && match[1]
-      
+
       entry[pageName] = entryFile
       htmlWebpackPlugin.push(
         new HtmlWebpackPlugin({
