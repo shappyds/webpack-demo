@@ -10,5 +10,6 @@ module.exports = {
     "semi": ["error", "never"],
     "global-require": 0,
     "import/no-extraneous-dependencies": 0,
+    "jsx-a11y/click-events-have-key-events": 0
   }
 }
