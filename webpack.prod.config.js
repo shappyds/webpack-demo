@@ -25,7 +25,7 @@ const setMPA = () => {
           template: path.join(__dirname, `src/${pageName}/index.html`),
           filename: `${pageName}.html`,
           inject: true,
-          chunks: [pageName],
+          chunks: ['commons', pageName],
           minify: {
             html5: true,
             collapseWhitespace: true,
@@ -82,4 +82,16 @@ module.exports = {
     }),
     new CleanWebpackPlugin()
   ].concat(htmlWebpackPlugin),
+  optimization: {
+    splitChunks: {
+      minSize: 0,
+      cacheGroups: {
+        commons: {
+          name: 'commons',
+          chunks: 'all',
+          minChunks: 2
+        }
+      }
+    }
+  }
 }
